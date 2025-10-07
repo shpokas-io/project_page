@@ -1,13 +1,13 @@
 ## Tech Stack
 
-- **React 19** - Modern functional components with hooks
-- **TypeScript** - Type safety and enhanced developer experience
-- **Vite** - Fast build tool and development server
-- **TanStack Query** - Server state management and data fetching
-- **Tailwind CSS** - Utility-first styling framework
-- **ShadCN UI** - Reusable component library
-- **Heroicons** - SVG icon library
-- **React Circular Progressbar** - Progress visualization
+- **React 19** 
+- **TypeScript** 
+- **Vite** 
+- **TanStack Query** 
+- **Tailwind CSS** 
+- **ShadCN UI** 
+- **Heroicons** 
+- **React Circular Progressbar** 
 
 ## Whats implemented 
  - Proper Data layer 
