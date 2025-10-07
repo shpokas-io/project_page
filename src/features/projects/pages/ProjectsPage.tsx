@@ -39,31 +39,35 @@ export const ProjectsPage = () => {
   };
 
   return (
-    <div className="p-4">
-      <h1 className="text-xl font-semibold mb-4">Projects</h1>
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 p-4">
+      <div className="max-w-7xl mx-auto">
+        <h1 className="text-3xl font-bold mb-6 text-purple-900">Projects</h1>
 
-      <div className="flex justify-end items-center gap-4 mb-4">
-        <PageSizeSelector currentLimit={limit} onLimitChange={handleLimitChange} />
-        <FilterPanel
-          onFiltersChange={handleFiltersChange}
-          onReset={handleResetFilters}
-          filters={filters}
+        <div className="flex justify-end items-center gap-4 mb-6">
+          <PageSizeSelector currentLimit={limit} onLimitChange={handleLimitChange} />
+          <FilterPanel
+            onFiltersChange={handleFiltersChange}
+            onReset={handleResetFilters}
+            filters={filters}
+          />
+        </div>
+
+        <div className="card-gradient rounded-xl shadow-lg">
+          <ProjectsTable
+            projects={data?.items || []}
+            currentSort={sort}
+            onSort={handleSort}
+            isLoading={isLoading}
+            error={error}
+          />
+        </div>
+
+        <ProjectsPagination
+          currentPage={page}
+          totalPages={data?.meta?.last_page ?? 1}
+          onPageChange={setPage}
         />
       </div>
-
-      <ProjectsTable
-        projects={data?.items || []}
-        currentSort={sort}
-        onSort={handleSort}
-        isLoading={isLoading}
-        error={error}
-      />
-
-      <ProjectsPagination
-        currentPage={page}
-        totalPages={data?.meta?.last_page ?? 1}
-        onPageChange={setPage}
-      />
     </div>
   );
 };

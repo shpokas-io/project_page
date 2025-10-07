@@ -39,7 +39,6 @@ export const FilterPanel = ({ onFiltersChange, onReset, filters }: FilterPanelPr
     return value !== undefined && value !== null && value !== '';
   }).length;
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -58,11 +57,10 @@ export const FilterPanel = ({ onFiltersChange, onReset, filters }: FilterPanelPr
 
   return (
     <div className="relative inline-block" ref={dropdownRef}>
-      {/* Filter Trigger Button */}
       <Button
         variant="outline"
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 min-w-[120px]"
+        className="flex items-center gap-2 min-w-[120px] bg-white border-pink-200 hover:bg-pink-50"
       >
         <Filter className="w-4 h-4" />
         Filtrai
@@ -74,64 +72,69 @@ export const FilterPanel = ({ onFiltersChange, onReset, filters }: FilterPanelPr
         <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </Button>
 
-      {/* Dropdown Panel with Accordion */}
       {isOpen && (
-        <Card className="absolute top-full right-0 mt-1 w-[500px] shadow-lg border z-50 bg-background">
-          <CardHeader className="pb-3">
+        <Card className="absolute top-full right-0 mt-1 w-[380px] shadow-xl border z-50 bg-white/95 backdrop-blur-sm border-pink-200">
+          <CardHeader className="pb-3 bg-white/90">
             <div className="flex items-center justify-between">
-              <CardTitle className="text-lg">Filtrai</CardTitle>
-              <Button variant="ghost" size="sm" onClick={() => setIsOpen(false)}>
+              <CardTitle className="text-lg text-purple-900">Filtrai</CardTitle>
+              <Button variant="ghost" size="sm" onClick={() => setIsOpen(false)} className="hover:bg-pink-100">
                 <X className="w-4 h-4" />
               </Button>
             </div>
           </CardHeader>
-          <CardContent className="max-h-[500px] overflow-y-auto">
+          <CardContent className="max-h-[500px] overflow-y-auto bg-white/90">
             <Accordion type="multiple" defaultValue={['country']} className="w-full">
               {/* Country Section */}
               <AccordionItem value="country">
-                <AccordionTrigger>Šalis</AccordionTrigger>
-                <AccordionContent>
+                <AccordionTrigger className="text-purple-800 hover:text-pink-600">Šalis</AccordionTrigger>
+                <AccordionContent className="bg-white/80 rounded-md p-3">
                   <LocationFilter filters={filters} onUpdateFilter={updateFilter} />
                 </AccordionContent>
               </AccordionItem>
 
               {/* Rating Section */}
               <AccordionItem value="rating">
-                <AccordionTrigger>Reitingas</AccordionTrigger>
-                <AccordionContent>
+                <AccordionTrigger className="text-purple-800 hover:text-pink-600">Reitingas</AccordionTrigger>
+                <AccordionContent className="bg-white/80 rounded-md p-3">
                   <RatingFilter filters={filters} onUpdateFilter={updateFilter} />
                 </AccordionContent>
               </AccordionItem>
 
               {/* Purpose Section */}
               <AccordionItem value="purpose">
-                <AccordionTrigger>Tikslas</AccordionTrigger>
-                <AccordionContent>
+                <AccordionTrigger className="text-purple-800 hover:text-pink-600">Tikslas</AccordionTrigger>
+                <AccordionContent className="bg-white/80 rounded-md p-3">
                   <PurposeFilter filters={filters} onUpdateFilter={updateFilter} />
                 </AccordionContent>
               </AccordionItem>
 
               {/* Duration Section */}
               <AccordionItem value="duration">
-                <AccordionTrigger>Kredito trukmė</AccordionTrigger>
-                <AccordionContent>
+                <AccordionTrigger className="text-purple-800 hover:text-pink-600">Kredito trukmė</AccordionTrigger>
+                <AccordionContent className="bg-white/80 rounded-md p-3">
                   <DurationFilter filters={filters} onUpdateFilter={updateFilter} />
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
 
             {/* Action Buttons */}
-            <div className="flex gap-2 pt-4 mt-4 border-t">
+            <div className="flex gap-2 pt-4 mt-4 border-t border-pink-200 bg-white/90 -mx-6 px-6 -mb-6 pb-6">
               <Button
                 variant="outline"
                 size="sm"
                 onClick={onReset}
                 disabled={!hasActiveFilters(filters)}
+                className="border-pink-300 text-purple-700 hover:bg-pink-50 flex-1"
               >
                 Valyti filtrus
               </Button>
-              <Button size="sm" onClick={() => setIsOpen(false)}>
-                Taikyti
+              <Button 
+                size="sm" 
+                onClick={() => setIsOpen(false)}
+                className="bg-primary hover:bg-primary/90 text-white flex-1"
+              >
+                Išsaugoti filtrus
+                
               </Button>
             </div>
           </CardContent>

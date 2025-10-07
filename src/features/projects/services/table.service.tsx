@@ -88,10 +88,10 @@ export const TABLE_COLUMNS: TableColumn[] = [
             text={`${Math.round(progressClamped)}%`}
             styles={buildStyles({
               textSize: '20px',
-              pathColor: '#2563eb',
-              textColor: '#374151',
-              trailColor: '#e5e7eb',
-              backgroundColor: '#f9fafb',
+              pathColor: '#ec4899',
+              textColor: '#be185d',
+              trailColor: 'rgba(236,72,153,0.1)',
+              backgroundColor: 'transparent',
             })}
           />
         </div>
