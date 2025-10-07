@@ -14,7 +14,7 @@ export type TableColumn = {
 export const TABLE_COLUMNS: TableColumn[] = [
   {
     key: 'image',
-    label: 'Img',
+    label: '',
     formatter: (_, project) =>
       project.image_url ? (
         <img
