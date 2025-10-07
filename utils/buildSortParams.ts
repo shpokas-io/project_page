@@ -1,23 +1,39 @@
-type SortConfig = {
-  id: string;
-  desc: boolean;
+import type { FilterState } from '../src/features/projects/model/filter.model';
+import { buildFiltersParams } from '../src/features/projects/services/filter.service';
+import { SortConfig } from '../src/features/projects/model/sort.model';
+import { buildSortParam } from '../src/features/projects/services/sort.service';
+
+type QueryParams = {
+  page: number;
+  limit: number;
+  sort?: SortConfig | null;
+  filters?: FilterState;
+  search?: string;
 };
 
-export function buildSortParams(sort: SortConfig | null): string {
-  if (!sort) return '';
+export const buildQueryString = (params: QueryParams): string => {
+  const queryParts: string[] = [];
 
-  const sortParam = JSON.stringify(sort);
-  return `sort[]=${encodeURIComponent(sortParam)}`;
-}
+  queryParts.push(`page=${params.page}`);
+  queryParts.push(`limit=${params.limit}`);
 
-export function buildQueryString(params: Record<string, string | number | undefined>): string {
-  const searchParams = new URLSearchParams();
+  if (params.search && params.search.trim()) {
+    queryParts.push(`search=${encodeURIComponent(params.search.trim())}`);
+  }
 
-  Object.entries(params).forEach(([key, value]) => {
-    if (value !== undefined && value !== '') {
-      searchParams.append(key, value.toString());
+  if (params.sort) {
+    const sortParam = buildSortParam(params.sort);
+    if (sortParam) {
+      queryParts.push(sortParam);
     }
-  });
+  }
 
-  return searchParams.toString();
-}
+  if (params.filters) {
+    const filtersParam = buildFiltersParams(params.filters);
+    if (filtersParam) {
+      queryParts.push(filtersParam);
+    }
+  }
+
+  return queryParts.join('&');
+};

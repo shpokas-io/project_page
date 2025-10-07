@@ -1,4 +1,4 @@
-import type { ProjectCardResponse, SortState } from '../model/project.model';
+import type { ProjectCardResponse } from '../model/project.model';
 import {
   Table,
   TableBody,
@@ -9,6 +9,7 @@ import {
 } from '../../../components/ui/table';
 import { SortHeader } from './SortHeader';
 import { TABLE_COLUMNS } from '../services/table.service';
+import type { SortState } from '../model/sort.model';
 
 type Props = {
   projects: ProjectCardResponse[];

@@ -3,12 +3,14 @@ import { ProjectsTable } from '../components/ProjectsTable';
 import { useProjects } from '../hooks/useProjects';
 import { buildQueryString } from '../../../../utils/queryBuilder';
 import { toggleSort } from '../services/sort.service';
-import type { SortState } from '../model/project.model';
 import { ProjectsPagination } from '../components/Pagination';
+import type { SortState } from '../model/sort.model';
+import { FilterPanel } from '../components/FilterPanel';
 
 export const ProjectsPage = () => {
   const [page, setPage] = useState(1);
   const [sort, setSort] = useState<SortState>(null);
+  const [filters, setFilters] = useState<any>({});
   const limit = 10;
 
   const queryString = buildQueryString({ page, limit, sort });
@@ -19,9 +21,28 @@ export const ProjectsPage = () => {
     setSort(newSort);
   };
 
+  const handleFiltersChange = (newFilters: any) => {
+    setFilters(newFilters);
+    setPage(1);
+  };
+
+  const handleResetFilters = () => {
+    setFilters({});
+    setPage(1);
+  };
+
   return (
     <div className="p-4">
       <h1 className="text-xl font-semibold mb-4">Projects</h1>
+
+      <div className="flex justify-end mb-4">
+        <FilterPanel
+          onFiltersChange={handleFiltersChange}
+          onReset={handleResetFilters}
+          filters={filters}
+        />
+      </div>
+
       <ProjectsTable
         projects={data?.items || []}
         currentSort={sort}
@@ -29,6 +50,7 @@ export const ProjectsPage = () => {
         isLoading={isLoading}
         error={error}
       />
+
       <ProjectsPagination
         currentPage={page}
         totalPages={data?.meta?.last_page ?? 1}

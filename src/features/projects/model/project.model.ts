@@ -1,10 +1,3 @@
-export type SortConfig = {
-  id: 'basic_interest' | 'initial_rating' | 'credit_duration';
-  desc: boolean;
-};
-
-export type SortState = SortConfig | null;
-
 export const ProjectStatus = {
   COMING_SOON: 'coming_soon',
   OPEN_FOR_INVESTMENTS: 'open_for_investments',
