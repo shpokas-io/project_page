@@ -1,4 +1,4 @@
-const BASE_URL = import.meta.env.VITE_API_IRL;
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 export async function fetchClient(endpoint: string, options?: RequestInit) {
   const res = await fetch(`${BASE_URL}/${endpoint}`, options);
