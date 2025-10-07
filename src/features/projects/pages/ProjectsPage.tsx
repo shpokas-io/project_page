@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { Pagination } from '../components/Pagination';
 import { ProjectsTable } from '../components/ProjectsTable';
 import { useProjects } from '../hooks/useProjects';
 import { buildQueryString } from '../../../../utils/queryBuilder';
 import { toggleSort } from '../services/sort.service';
 import type { SortState } from '../model/project.model';
+import { ProjectsPagination } from '../components/Pagination';
 
 export const ProjectsPage = () => {
   const [page, setPage] = useState(1);
@@ -29,7 +29,11 @@ export const ProjectsPage = () => {
         isLoading={isLoading}
         error={error}
       />
-      <Pagination page={page} totalPages={data?.meta?.last_page ?? 1} onPageChange={setPage} />
+      <ProjectsPagination
+        currentPage={page}
+        totalPages={data?.meta?.last_page ?? 1}
+        onPageChange={setPage}
+      />
     </div>
   );
 };
