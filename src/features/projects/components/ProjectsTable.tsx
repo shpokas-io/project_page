@@ -1,5 +1,4 @@
-import type { ActiveSorts, ProjectCardResponse } from '../model/project.model';
-import { SortHeader } from './SortHeader';
+import type { ProjectCardResponse, SortState } from '../model/project.model';
 import {
   Table,
   TableBody,
@@ -8,45 +7,64 @@ import {
   TableHeader,
   TableRow,
 } from '../../../components/ui/table';
+import { SortHeader } from './SortHeader';
 
 type Props = {
   projects: ProjectCardResponse[];
-  activeSorts: ActiveSorts;
-  onToggleSort: (key: string) => void;
+  currentSort?: SortState;
+  onSort?: (sortKey: string) => void;
 };
 
-export const ProjectsTable = ({ projects, activeSorts, onToggleSort }: Props) => (
+export const ProjectsTable = ({ projects, currentSort = null, onSort }: Props) => (
   <div className="overflow-x-auto">
     <Table>
       <TableHeader>
         <TableRow>
           <TableHead>Name</TableHead>
           <TableHead>Country</TableHead>
-          <SortHeader
-            label="Interest %"
-            sortKey="basic_interest"
-            activeSorts={activeSorts}
-            onToggleSort={onToggleSort}
-          />
-          <SortHeader
-            label="Rating"
-            sortKey="initial_rating"
-            activeSorts={activeSorts}
-            onToggleSort={onToggleSort}
-          />
-          <SortHeader
-            label="Credit Duration"
-            sortKey="credit_duration"
-            activeSorts={activeSorts}
-            onToggleSort={onToggleSort}
-          />
+          <TableHead>
+            {onSort ? (
+              <SortHeader
+                label="Basic Interest"
+                sortKey="basic_interest"
+                currentSort={currentSort}
+                onSort={onSort}
+              />
+            ) : (
+              'Basic Interest'
+            )}
+          </TableHead>
+          <TableHead>
+            {onSort ? (
+              <SortHeader
+                label="Initial Rating"
+                sortKey="initial_rating"
+                currentSort={currentSort}
+                onSort={onSort}
+              />
+            ) : (
+              'Initial Rating'
+            )}
+          </TableHead>
+          <TableHead>
+            {onSort ? (
+              <SortHeader
+                label="Credit Duration"
+                sortKey="credit_duration"
+                currentSort={currentSort}
+                onSort={onSort}
+              />
+            ) : (
+              'Credit Duration'
+            )}
+          </TableHead>
           <TableHead>Status</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         {projects.map((p) => (
           <TableRow key={p.pid}>
-            <TableCell>{p.project_name}</TableCell>
+            <TableCell className="font-medium">{p.project_name}</TableCell>
             <TableCell>{p.country ?? '-'}</TableCell>
             <TableCell>{p.basic_interest}%</TableCell>
             <TableCell>{p.initial_rating}</TableCell>
