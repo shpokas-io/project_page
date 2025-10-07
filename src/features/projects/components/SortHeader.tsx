@@ -28,13 +28,13 @@ export const SortHeader = ({ label, sortKey, currentSort, onSort, className }: P
         <ChevronUp
           className={cn(
             'h-3 w-3 transition-colors',
-            isActive && !isDesc ? 'text-primary' : 'text-muted-foreground/30',
+            isActive && isDesc ? 'text-primary' : 'text-muted-foreground/30',
           )}
         />
         <ChevronDown
           className={cn(
             'h-3 w-3 -mt-1 transition-colors',
-            isActive && isDesc ? 'text-primary' : 'text-muted-foreground/30',
+            isActive && !isDesc ? 'text-primary' : 'text-muted-foreground/30',
           )}
         />
       </div>

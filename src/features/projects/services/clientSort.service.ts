@@ -33,7 +33,7 @@ export const sortProjectsClientSide = (
       case 'initial_rating':
         const aRatingOrder = getRatingOrder(a.initial_rating);
         const bRatingOrder = getRatingOrder(b.initial_rating);
-        comparison = aRatingOrder - bRatingOrder;
+        comparison = bRatingOrder - aRatingOrder;
         break;
 
       case 'credit_duration':
