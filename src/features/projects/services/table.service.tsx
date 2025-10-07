@@ -62,6 +62,8 @@ export const TABLE_COLUMNS: TableColumn[] = [
   {
     key: 'credit_duration',
     label: 'Laikas',
+    sortable: true,
+    sortKey: 'credit_duration',
   },
   {
     key: 'investors',
