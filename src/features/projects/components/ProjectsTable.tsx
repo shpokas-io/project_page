@@ -70,7 +70,10 @@ export const ProjectsTable = ({
           projects.map((project) => (
             <TableRow key={project.pid}>
               {TABLE_COLUMNS.map((column) => (
-                <TableCell key={column.key} className={column.key === 'progress' ? 'w-24' : ''}>
+                <TableCell
+                  key={column.key}
+                  className={column.key === 'progress' ? 'w-20 py-2' : ''}
+                >
                   {column.formatter
                     ? column.formatter(project[column.key as keyof ProjectCardResponse], project)
                     : project[column.key as keyof ProjectCardResponse]}

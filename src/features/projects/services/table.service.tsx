@@ -1,4 +1,6 @@
 import React from 'react';
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
 import type { ProjectCardResponse } from '../model/project.model';
 
 export type TableColumn = {
@@ -78,10 +80,17 @@ export const TABLE_COLUMNS: TableColumn[] = [
       const progressClamped = Math.min(progress, 100);
 
       return (
-        <div className="w-full bg-gray-200 rounded-full h-2">
-          <div
-            className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-            style={{ width: `${progressClamped}%` }}
+        <div className="w-16 h-16">
+          <CircularProgressbar
+            value={progressClamped}
+            text={`${Math.round(progressClamped)}%`}
+            styles={buildStyles({
+              textSize: '20px',
+              pathColor: '#2563eb',
+              textColor: '#374151',
+              trailColor: '#e5e7eb',
+              backgroundColor: '#f9fafb',
+            })}
           />
         </div>
       );
