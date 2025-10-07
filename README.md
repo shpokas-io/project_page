@@ -9,6 +9,20 @@
 - **Heroicons** - SVG icon library
 - **React Circular Progressbar** - Progress visualization
 
+## Whats implemented 
+ - Proper Data layer 
+ - Solid Project structure 
+ - Table layout & table structure
+ - Filtering system (except campaign_id, private_id):
+   - Location
+   - Duration
+   - Purpose
+   - Rating
+ - Sorting system
+   - Hierarchy for "Reitingas"
+   - ClientSide sorting for "Laikas"&"Interest Rate"
+ - Pagination system that adjust to how many items are displayed on the page 10/20/50/100
+
 ## Folder Structure
 
 The project follows a **feature-based architecture** adhering to SOLID and DRY principles:
