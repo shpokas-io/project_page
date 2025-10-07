@@ -1,20 +1,21 @@
 import { useState, useRef, useEffect } from 'react';
 import type { FilterState } from '../model/filter.model';
-import { Button } from '../../../components/ui/button';
 import { hasActiveFilters } from '../services/filter.service';
-import { Card, CardContent, CardHeader, CardTitle } from '../../../components/ui/card';
-import { Label } from '../../../components/ui/label';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '../../../components/ui/select';
-import { Input } from '../../../components/ui/input';
-import { Checkbox } from '../../../components/ui/checkbox';
-import { COUNTRY_OPTIONS, PURPOSE_OPTIONS, RATING_OPTIONS } from '../../../constants/filters';
+
 import { Filter, X, ChevronDown } from 'lucide-react';
+
+import { LocationFilter } from './filters/LocationFilter';
+import { RatingFilter } from './filters/RatingFilter';
+import { PurposeFilter } from './filters/PurposeFilter';
+import { DurationFilter } from './filters/DurationFilter';
+import { Button } from '../../../components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '../../../components/ui/card';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '../../../components/ui/accordion';
 
 type FilterPanelProps = {
   onFiltersChange: (filters: FilterState) => void;
@@ -31,25 +32,6 @@ export const FilterPanel = ({ onFiltersChange, onReset, filters }: FilterPanelPr
     onFiltersChange(newFilters);
   };
 
-  const handleRatingChange = (rating: string, checked: boolean) => {
-    const currentRatings = filters.initial_rating || [];
-    const newRatings = checked
-      ? [...currentRatings, rating]
-      : currentRatings.filter((r) => r !== rating);
-
-    updateFilter('initial_rating', newRatings);
-  };
-
-  const handleDurationChange = (field: 'min' | 'max', value: string) => {
-    const currentDuration = filters.credit_duration || {};
-    const numValue = value === '' ? undefined : Number(value);
-
-    updateFilter('credit_duration', {
-      ...currentDuration,
-      [field]: numValue,
-    });
-  };
-
   const activeFiltersCount = Object.values(filters).filter((value) => {
     if (Array.isArray(value)) return value.length > 0;
     if (typeof value === 'object' && value !== null) {
@@ -58,6 +40,7 @@ export const FilterPanel = ({ onFiltersChange, onReset, filters }: FilterPanelPr
     return value !== undefined && value !== null && value !== '';
   }).length;
 
+  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -76,6 +59,7 @@ export const FilterPanel = ({ onFiltersChange, onReset, filters }: FilterPanelPr
 
   return (
     <div className="relative inline-block" ref={dropdownRef}>
+      {/* Filter Trigger Button */}
       <Button
         variant="outline"
         onClick={() => setIsOpen(!isOpen)}
@@ -91,8 +75,9 @@ export const FilterPanel = ({ onFiltersChange, onReset, filters }: FilterPanelPr
         <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </Button>
 
+      {/* Dropdown Panel with Accordion */}
       {isOpen && (
-        <Card className="absolute top-full right-0 mt-1 w-[600px] shadow-lg border z-50 bg-background">
+        <Card className="absolute top-full right-0 mt-1 w-[500px] shadow-lg border z-50 bg-background">
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
               <CardTitle className="text-lg">Filtrai</CardTitle>
@@ -101,116 +86,43 @@ export const FilterPanel = ({ onFiltersChange, onReset, filters }: FilterPanelPr
               </Button>
             </div>
           </CardHeader>
-          <CardContent className="space-y-4 max-h-[500px] overflow-y-auto">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label className="text-sm font-medium">Šalis</Label>
-                <Select
-                  value={filters.country || 'all'}
-                  onValueChange={(value) =>
-                    updateFilter('country', value === 'all' ? undefined : value)
-                  }
-                >
-                  <SelectTrigger className="h-9">
-                    <SelectValue placeholder="Pasirinkite šalį" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">Visos šalys</SelectItem>
-                    {COUNTRY_OPTIONS.map((country) => (
-                      <SelectItem key={country.value} value={country.value}>
-                        {country.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+          <CardContent className="max-h-[500px] overflow-y-auto">
+            <Accordion type="multiple" defaultValue={['country']} className="w-full">
+              {/* Country Section */}
+              <AccordionItem value="country">
+                <AccordionTrigger>Šalis</AccordionTrigger>
+                <AccordionContent>
+                  <LocationFilter filters={filters} onUpdateFilter={updateFilter} />
+                </AccordionContent>
+              </AccordionItem>
 
-              <div className="space-y-2">
-                <Label className="text-sm font-medium">Tikslas</Label>
-                <Select
-                  value={filters.purpose || 'all'}
-                  onValueChange={(value) =>
-                    updateFilter('purpose', value === 'all' ? undefined : value)
-                  }
-                >
-                  <SelectTrigger className="h-9">
-                    <SelectValue placeholder="Pasirinkite tikslą" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">Visi tikslai</SelectItem>
-                    {PURPOSE_OPTIONS.map((purpose) => (
-                      <SelectItem key={purpose.value} value={purpose.value}>
-                        {purpose.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
+              {/* Rating Section */}
+              <AccordionItem value="rating">
+                <AccordionTrigger>Reitingas</AccordionTrigger>
+                <AccordionContent>
+                  <RatingFilter filters={filters} onUpdateFilter={updateFilter} />
+                </AccordionContent>
+              </AccordionItem>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label className="text-sm font-medium">Kampanijos ID</Label>
-                <Input
-                  placeholder="Įveskite kampanijos ID"
-                  value={filters.campaign_id || ''}
-                  onChange={(e) => updateFilter('campaign_id', e.target.value || undefined)}
-                  className="h-9"
-                />
-              </div>
+              {/* Purpose Section */}
+              <AccordionItem value="purpose">
+                <AccordionTrigger>Tikslas</AccordionTrigger>
+                <AccordionContent>
+                  <PurposeFilter filters={filters} onUpdateFilter={updateFilter} />
+                </AccordionContent>
+              </AccordionItem>
 
-              <div className="space-y-2">
-                <Label className="text-sm font-medium">Privatus ID</Label>
-                <Input
-                  placeholder="Įveskite privatų ID"
-                  value={filters.private_id || ''}
-                  onChange={(e) => updateFilter('private_id', e.target.value || undefined)}
-                  className="h-9"
-                />
-              </div>
-            </div>
+              {/* Duration Section */}
+              <AccordionItem value="duration">
+                <AccordionTrigger>Kredito trukmė</AccordionTrigger>
+                <AccordionContent>
+                  <DurationFilter filters={filters} onUpdateFilter={updateFilter} />
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
 
-            <div className="space-y-2">
-              <Label className="text-sm font-medium">Kredito trukmė (mėnesiais)</Label>
-              <div className="flex gap-2">
-                <Input
-                  type="number"
-                  placeholder="Min"
-                  value={filters.credit_duration?.min || ''}
-                  onChange={(e) => handleDurationChange('min', e.target.value)}
-                  className="h-9"
-                />
-                <span className="flex items-center text-sm text-muted-foreground">-</span>
-                <Input
-                  type="number"
-                  placeholder="Max"
-                  value={filters.credit_duration?.max || ''}
-                  onChange={(e) => handleDurationChange('max', e.target.value)}
-                  className="h-9"
-                />
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <Label className="text-sm font-medium">Reitingas</Label>
-              <div className="grid grid-cols-5 gap-2">
-                {RATING_OPTIONS.map((rating) => (
-                  <div key={rating} className="flex items-center space-x-1">
-                    <Checkbox
-                      id={rating}
-                      checked={(filters.initial_rating || []).includes(rating)}
-                      onCheckedChange={(checked) => handleRatingChange(rating, checked as boolean)}
-                      className="h-4 w-4"
-                    />
-                    <Label htmlFor={rating} className="text-xs font-normal cursor-pointer">
-                      {rating}
-                    </Label>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="flex gap-2 pt-2 border-t">
+            {/* Action Buttons */}
+            <div className="flex gap-2 pt-4 mt-4 border-t">
               <Button
                 variant="outline"
                 size="sm"

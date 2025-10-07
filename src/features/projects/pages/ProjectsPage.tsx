@@ -1,19 +1,20 @@
 import { useState } from 'react';
 import { ProjectsTable } from '../components/ProjectsTable';
 import { useProjects } from '../hooks/useProjects';
-import { buildQueryString } from '../../../../utils/queryBuilder';
 import { toggleSort } from '../services/sort.service';
 import { ProjectsPagination } from '../components/Pagination';
 import type { SortState } from '../model/sort.model';
+import type { FilterState } from '../model/filter.model';
 import { FilterPanel } from '../components/FilterPanel';
+import { buildQueryString } from '../../../utils/queryBuilder';
 
 export const ProjectsPage = () => {
   const [page, setPage] = useState(1);
   const [sort, setSort] = useState<SortState>(null);
-  const [filters, setFilters] = useState<any>({});
+  const [filters, setFilters] = useState<FilterState>({});
   const limit = 10;
 
-  const queryString = buildQueryString({ page, limit, sort });
+  const queryString = buildQueryString({ page, limit, sort, filters });
   const { data, isLoading, error } = useProjects(queryString);
 
   const handleSort = (sortKey: string) => {
@@ -21,7 +22,7 @@ export const ProjectsPage = () => {
     setSort(newSort);
   };
 
-  const handleFiltersChange = (newFilters: any) => {
+  const handleFiltersChange = (newFilters: FilterState) => {
     setFilters(newFilters);
     setPage(1);
   };

@@ -1,7 +1,7 @@
-import type { FilterState } from '../src/features/projects/model/filter.model';
-import { buildFiltersParams } from '../src/features/projects/services/filter.service';
-import { SortConfig } from '../src/features/projects/model/sort.model';
-import { buildSortParam } from '../src/features/projects/services/sort.service';
+import type { FilterState } from '../features/projects/model/filter.model';
+import type { SortConfig } from '../features/projects/model/sort.model';
+import { buildFiltersParams } from '../features/projects/services/filter.service';
+import { buildSortParam } from '../features/projects/services/sort.service';
 
 type QueryParams = {
   page: number;

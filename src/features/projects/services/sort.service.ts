@@ -1,4 +1,4 @@
-import type { SortConfig } from '../model/project.model';
+import type { SortConfig } from '../model/sort.model';
 
 export const buildSortParam = (sort: SortConfig | null): string => {
   if (!sort) return '';

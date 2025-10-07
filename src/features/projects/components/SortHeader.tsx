@@ -1,6 +1,6 @@
 import { ChevronUp, ChevronDown } from 'lucide-react';
 import { cn } from '../../../lib/utils';
-import type { SortState } from '../model/project.model';
+import type { SortState } from '../model/sort.model';
 
 type Props = {
   label: string;
