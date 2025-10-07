@@ -2,8 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import type { FilterState } from '../model/filter.model';
 import { hasActiveFilters } from '../services/filter.service';
 
-import { Filter, X, ChevronDown } from 'lucide-react';
-
+import { FunnelIcon as Filter, XMarkIcon as X, ChevronDownIcon as ChevronDown } from '@heroicons/react/24/outline';
 import { LocationFilter } from './filters/LocationFilter';
 import { RatingFilter } from './filters/RatingFilter';
 import { PurposeFilter } from './filters/PurposeFilter';

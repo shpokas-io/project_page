@@ -1,5 +1,4 @@
-import { ChevronUp, ChevronDown } from 'lucide-react';
-import { cn } from '../../../lib/utils';
+import { ChevronUpIcon as ChevronUp, ChevronDownIcon as ChevronDown } from '@heroicons/react/24/outline';import { cn } from '../../../lib/utils';
 import type { SortState } from '../model/sort.model';
 
 type Props = {
