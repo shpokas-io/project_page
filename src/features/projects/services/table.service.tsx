@@ -47,7 +47,7 @@ export const TABLE_COLUMNS: TableColumn[] = [
   {
     key: 'loan_ratio_max',
     label: 'LTV',
-    formatter: (value) => `${value}%`,
+    formatter: (value) => (value !== null ? `${value}%` : '-'),
   },
   {
     key: 'invested_amount',
