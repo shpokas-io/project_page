@@ -5,8 +5,6 @@ export const COUNTRY_OPTIONS = [
   { value: 'lv', label: 'Latvia' },
 ];
 
-export const RATING_OPTIONS = ['AAA', 'AA+', 'AA', 'AA-', 'A+', 'A', 'A-', 'BBB+', 'BBB', 'BBB-'];
-
 export const PURPOSE_OPTIONS = [
   { value: 'real_estate_development', label: 'Real Estate Development' },
   { value: 'refinancing', label: 'Refinancing' },
@@ -14,6 +12,19 @@ export const PURPOSE_OPTIONS = [
   { value: 'real_estate_acquisition', label: 'Real Estate Acquisition' },
   { value: 'other', label: 'Other' },
 ];
+
+export const RATING_HIERARCHY = [
+  'AAA',
+  'AA+',
+  'AA',
+  'AA-',
+  'A+',
+  'A',
+  'A-',
+  'BBB+',
+  'BBB',
+  'BBB-',
+] as const;
 
 export const API_LIMITS = [10, 20, 50, 100] as const;
 

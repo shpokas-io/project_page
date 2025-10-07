@@ -1,7 +1,6 @@
 import type { FilterState } from '../features/projects/model/filter.model';
 import type { SortConfig } from '../features/projects/model/sort.model';
 import { buildFiltersParams } from '../features/projects/services/filter.service';
-import { buildSortParam } from '../features/projects/services/sort.service';
 
 type QueryParams = {
   page: number;
@@ -19,13 +18,6 @@ export const buildQueryString = (params: QueryParams): string => {
 
   if (params.search && params.search.trim()) {
     queryParts.push(`search=${encodeURIComponent(params.search.trim())}`);
-  }
-
-  if (params.sort) {
-    const sortParam = buildSortParam(params.sort);
-    if (sortParam) {
-      queryParts.push(sortParam);
-    }
   }
 
   if (params.filters) {

@@ -15,7 +15,7 @@ export const ProjectsPage = () => {
   const limit = 10;
 
   const queryString = buildQueryString({ page, limit, sort, filters });
-  const { data, isLoading, error } = useProjects(queryString);
+  const { data, isLoading, error } = useProjects(queryString, sort);
 
   const handleSort = (sortKey: string) => {
     const newSort = toggleSort(sort, sortKey);

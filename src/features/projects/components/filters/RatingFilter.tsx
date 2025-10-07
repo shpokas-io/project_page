@@ -1,6 +1,6 @@
 import { Checkbox } from '../../../../components/ui/checkbox';
 import { Label } from '../../../../components/ui/label';
-import { RATING_OPTIONS } from '../../../../constants/filters';
+import { RATING_HIERARCHY } from '../../constants/project.constants';
 import type { FilterState } from '../../model/filter.model';
 
 type Props = {
@@ -22,7 +22,7 @@ export const RatingFilter = ({ filters, onUpdateFilter }: Props) => {
     <div className="space-y-3">
       <Label className="text-sm font-medium">Pasirinkite reitingus</Label>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-1">
-        {RATING_OPTIONS.map((rating) => (
+        {RATING_HIERARCHY.map((rating) => (
           <div key={rating} className="flex items-center space-x-2">
             <Checkbox
               id={rating}

@@ -1,6 +1,6 @@
 import { Checkbox } from '../../../../components/ui/checkbox';
 import { Label } from '../../../../components/ui/label';
-import { PURPOSE_OPTIONS } from '../../../../constants/filters';
+import { PURPOSE_OPTIONS } from '../../constants/project.constants';
 import type { FilterState } from '../../model/filter.model';
 
 type Props = {
