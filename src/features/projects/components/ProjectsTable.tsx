@@ -13,9 +13,17 @@ type Props = {
   projects: ProjectCardResponse[];
   currentSort?: SortState;
   onSort?: (sortKey: string) => void;
+  isLoading?: boolean;
+  error?: Error | null;
 };
 
-export const ProjectsTable = ({ projects, currentSort = null, onSort }: Props) => (
+export const ProjectsTable = ({
+  projects,
+  currentSort = null,
+  onSort,
+  isLoading = false,
+  error = null,
+}: Props) => (
   <div className="overflow-x-auto">
     <Table>
       <TableHeader>
@@ -62,16 +70,38 @@ export const ProjectsTable = ({ projects, currentSort = null, onSort }: Props) =
         </TableRow>
       </TableHeader>
       <TableBody>
-        {projects.map((p) => (
-          <TableRow key={p.pid}>
-            <TableCell className="font-medium">{p.project_name}</TableCell>
-            <TableCell>{p.country ?? '-'}</TableCell>
-            <TableCell>{p.basic_interest}%</TableCell>
-            <TableCell>{p.initial_rating}</TableCell>
-            <TableCell>{p.credit_duration}</TableCell>
-            <TableCell className="capitalize">{p.status.replaceAll('_', ' ')}</TableCell>
+        {isLoading ? (
+          <TableRow>
+            <TableCell colSpan={6} className="text-center py-8">
+              <div className="flex justify-center">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+              </div>
+            </TableCell>
           </TableRow>
-        ))}
+        ) : error ? (
+          <TableRow>
+            <TableCell colSpan={6} className="text-center py-8 text-red-500">
+              Error loading projects: {error.message}
+            </TableCell>
+          </TableRow>
+        ) : projects.length === 0 ? (
+          <TableRow>
+            <TableCell colSpan={6} className="text-center py-8 text-gray-500">
+              No projects found
+            </TableCell>
+          </TableRow>
+        ) : (
+          projects.map((p) => (
+            <TableRow key={p.pid}>
+              <TableCell className="font-medium">{p.project_name}</TableCell>
+              <TableCell>{p.country ?? '-'}</TableCell>
+              <TableCell>{p.basic_interest}%</TableCell>
+              <TableCell>{p.initial_rating}</TableCell>
+              <TableCell>{p.credit_duration}</TableCell>
+              <TableCell className="capitalize">{p.status.replaceAll('_', ' ')}</TableCell>
+            </TableRow>
+          ))
+        )}
       </TableBody>
     </Table>
   </div>
