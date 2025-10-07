@@ -1,30 +1,60 @@
-import type { ProjectCardResponse } from '../model/project.model';
+import type { ActiveSorts, ProjectCardResponse } from '../model/project.model';
+import { SortHeader } from './SortHeader';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '../../../components/ui/table';
 
-type Props = { projects: ProjectCardResponse[] };
+type Props = {
+  projects: ProjectCardResponse[];
+  activeSorts: ActiveSorts;
+  onToggleSort: (key: string) => void;
+};
 
-export const ProjectsTable = ({ projects }: Props) => (
+export const ProjectsTable = ({ projects, activeSorts, onToggleSort }: Props) => (
   <div className="overflow-x-auto">
-    <table className="min-w-full border border-gray-200 text-sm">
-      <thead className="bg-gray-100">
-        <tr>
-          <th className="p-2 text-left">Name</th>
-          <th className="p-2 text-left">Country</th>
-          <th className="p-2 text-left">Interest %</th>
-          <th className="p-2 text-left">Rating</th>
-          <th className="p-2 text-left">Status</th>
-        </tr>
-      </thead>
-      <tbody>
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead>Name</TableHead>
+          <TableHead>Country</TableHead>
+          <SortHeader
+            label="Interest %"
+            sortKey="basic_interest"
+            activeSorts={activeSorts}
+            onToggleSort={onToggleSort}
+          />
+          <SortHeader
+            label="Rating"
+            sortKey="initial_rating"
+            activeSorts={activeSorts}
+            onToggleSort={onToggleSort}
+          />
+          <SortHeader
+            label="Credit Duration"
+            sortKey="credit_duration"
+            activeSorts={activeSorts}
+            onToggleSort={onToggleSort}
+          />
+          <TableHead>Status</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
         {projects.map((p) => (
-          <tr key={p.pid} className="border-t hover:bg-gray-50">
-            <td className="p-2">{p.project_name}</td>
-            <td className="p-2">{p.country ?? '-'}</td>
-            <td className="p-2">{p.basic_interest}%</td>
-            <td className="p-2">{p.initial_rating}</td>
-            <td className="p-2 capitalize">{p.status.replaceAll('_', ' ')}</td>
-          </tr>
+          <TableRow key={p.pid}>
+            <TableCell>{p.project_name}</TableCell>
+            <TableCell>{p.country ?? '-'}</TableCell>
+            <TableCell>{p.basic_interest}%</TableCell>
+            <TableCell>{p.initial_rating}</TableCell>
+            <TableCell>{p.credit_duration}</TableCell>
+            <TableCell className="capitalize">{p.status.replaceAll('_', ' ')}</TableCell>
+          </TableRow>
         ))}
-      </tbody>
-    </table>
+      </TableBody>
+    </Table>
   </div>
 );
