@@ -21,11 +21,12 @@
  - Sorting system
    - Hierarchy for "Reitingas"
    - ClientSide sorting for "Laikas"&"Interest Rate"
+   - Server-Side sorting inside another branch (I will explain this during our call :D)
  - Pagination system that adjust to how many items are displayed on the page 10/20/50/100
 
 ## Folder Structure
 
-The project follows a **feature-based architecture** adhering to SOLID and DRY principles:
+The project follows a **feature-based architecture**:
 
 ```
 src/
