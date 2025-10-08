@@ -37,7 +37,7 @@ export interface ProjectCardResponse {
   days_to_get_money: string;
   funded_duration: string;
   investors: number;
-  credit_duration: string;
+  credit_duration: number;
   preview_url: string;
   country?: string;
   security_measures: SecurityMeasures;

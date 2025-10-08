@@ -16,11 +16,12 @@ export const ProjectsPage = () => {
   const [limit, setLimit] = useState(10);
 
   const queryString = buildQueryString({ page, limit, sort, filters });
-  const { data, isLoading, error } = useProjects(queryString, sort);
+  const { data, isLoading, error } = useProjects(queryString);
 
   const handleSort = (sortKey: string) => {
     const newSort = toggleSort(sort, sortKey);
     setSort(newSort);
+    setPage(1); 
   };
 
   const handleFiltersChange = (newFilters: FilterState) => {
